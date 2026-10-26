@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scanything"
+dynamic = ["version"]
+description = "Scanything - open source malware scanner with AI: static triage of .zip/.exe files, false-positive analysis and chat"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "Scanything contributors" }]
+keywords = ["malware", "antivirus", "false-positive", "triage", "llm", "openrouter", "pe", "security"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Security",
+    "Environment :: Console",
+]
+dependencies = []  # core runs on the standard library only
+
+[project.optional-dependencies]
+pe = ["pefile>=2023.2.7"]
+yara = ["yara-python>=4.3"]
+all = ["pefile>=2023.2.7", "yara-python>=4.3"]
+dev = ["pefile>=2023.2.7", "pytest>=8", "pyflakes>=3"]
+
+[project.scripts]
+scanything = "scanything.cli:main"
+
+[tool.setuptools]
+packages = ["scanything"]
+
+[tool.setuptools.package-data]
+scanything = ["skills/*.md"]
+
+[tool.setuptools.dynamic]
+version = { attr = "scanything.util.VERSION" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
