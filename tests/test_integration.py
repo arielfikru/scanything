@@ -1,6 +1,9 @@
 """Signatures, decoded strings, code rules and GitHub scanning wired through the scanner."""
 import base64
 import json
+import sys
+
+import pytest
 
 from scanything import api, repo
 from scanything.ids import scan_id_of
@@ -89,6 +92,7 @@ def test_repo_metadata_does_not_change_scan_id(monkeypatch):
     assert a["ids"]["scan_id"] == b["ids"]["scan_id"]
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="':' is not allowed in Windows file names")
 def test_scan_target_prefers_local_file(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     (tmp_path / "github:octo").mkdir()
